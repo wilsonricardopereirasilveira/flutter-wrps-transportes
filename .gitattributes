@@ -1,0 +1,2 @@
+assets/videos/caminhoes-pagina-inicial.mp4 filter=lfs diff=lfs merge=lfs -text
+assets/images/caminhoes-pagina-inicial.gif filter=lfs diff=lfs merge=lfs -text
