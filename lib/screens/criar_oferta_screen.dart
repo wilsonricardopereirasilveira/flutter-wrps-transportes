@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:website_transwrps/screens/calcular_tempo_distancia_screen.dart';
 import 'package:website_transwrps/widgets/side_menu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -1054,7 +1055,22 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
                                   ),
                                   const SizedBox(width: 20),
                                   OutlinedButton.icon(
-                                    onPressed: _isButtonEnabled ? () {} : null,
+                                    onPressed: _isButtonEnabled &&
+                                            origemLatLng != null &&
+                                            destinoLatLng != null
+                                        ? () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CalcularTempoDistanciaScreen(
+                                                  origemLatLng: origemLatLng!,
+                                                  destinoLatLng: destinoLatLng!,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        : null,
                                     icon: Icon(Icons.calculate,
                                         color: _isButtonEnabled
                                             ? const Color(0xFF301B64)
