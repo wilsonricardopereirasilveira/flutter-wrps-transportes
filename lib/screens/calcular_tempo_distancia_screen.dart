@@ -146,6 +146,32 @@ class _CalcularTempoDistanciaScreenState
     return distance / 1000; // Convert to kilometers
   }
 
+  Widget _buildVerticalLine() {
+    return Container(
+      height: 40,
+      width: 2,
+      color: Colors.grey[300],
+      margin: EdgeInsets.symmetric(horizontal: 18),
+    );
+  }
+
+  Widget _buildVerticalDottedLine() {
+    return Container(
+      height: 40,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(10, (index) {
+          return Expanded(
+            child: Container(
+              width: 2,
+              color: index % 2 == 0 ? Colors.grey[300] : Colors.transparent,
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,7 +222,7 @@ class _CalcularTempoDistanciaScreenState
                           polylines: [
                             Polyline(
                               points: routePoints,
-                              color: Colors.blue,
+                              color: Color(0xFF301B64),
                               strokeWidth: 4,
                             ),
                           ],
@@ -207,15 +233,33 @@ class _CalcularTempoDistanciaScreenState
                               width: 40,
                               height: 40,
                               point: widget.origemLatLng,
-                              builder: (ctx) =>
-                                  Icon(Icons.location_on, color: Colors.red),
+                              builder: (ctx) => Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.location_on,
+                                  color: Colors.green,
+                                ),
+                              ),
                             ),
                             Marker(
                               width: 40,
                               height: 40,
                               point: widget.destinoLatLng,
-                              builder: (ctx) =>
-                                  Icon(Icons.flag, color: Colors.green),
+                              builder: (ctx) => Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.flag,
+                                  color: Color(0xFF301B64),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -261,6 +305,7 @@ class _CalcularTempoDistanciaScreenState
                                         style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 12,
+                                          letterSpacing: -0.3,
                                           color: Colors.grey,
                                         ),
                                       ),
@@ -270,6 +315,7 @@ class _CalcularTempoDistanciaScreenState
                                           fontFamily: 'Montserrat',
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
+                                          letterSpacing: -1,
                                           color: Color(0xFF301B64),
                                         ),
                                       ),
@@ -298,120 +344,231 @@ class _CalcularTempoDistanciaScreenState
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15),
+                                          side: BorderSide(
+                                            color: Color(0xFF301B64),
+                                            width: 2,
+                                          ),
                                         ),
                                         margin: EdgeInsets.all(16),
                                         child: Padding(
-                                          padding: EdgeInsets.all(16),
+                                          padding: EdgeInsets.fromLTRB(
+                                              16, 24, 16, 16),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    'Caminhão',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'Caminhão',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            letterSpacing: -0.5,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color: Color(
+                                                                0xFF301B64),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 4),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              '${routeDistance.toInt()}Km',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    -0.5,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 24,
+                                                                color: Color(
+                                                                    0xFF301B64),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 4),
+                                                            Text(
+                                                              '(${routeTime}hrs)',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    -0.2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 4),
+                                                        Text(
+                                                          'Material de comida',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontSize: 16,
+                                                            letterSpacing: -0.5,
+                                                            color: Color(
+                                                                0xFF301B64),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 5),
+                                                        Divider(
+                                                            thickness: 1,
+                                                            color: Colors
+                                                                .grey[300]),
+                                                        // SizedBox(height: 5),
+                                                      ],
                                                     ),
                                                   ),
-                                                  Icon(Icons.local_shipping,
-                                                      size: 40),
+                                                  Center(
+                                                    child: Icon(
+                                                      Icons.local_shipping,
+                                                      size: 50,
+                                                      color: Color(0xFF301B64),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
-                                              SizedBox(height: 8),
-                                              Text(
-                                                '${routeDistance.toInt()}Km (${routeTime}h)',
-                                                style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 24,
-                                                ),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Text(
-                                                'Material de comida',
-                                                style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              Divider(height: 20, thickness: 2),
+                                              SizedBox(height: 20),
                                               if (origemEndereco.isNotEmpty)
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Icon(Icons.location_on,
-                                                            color:
-                                                                Colors.green),
+                                                        Column(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.location_on,
+                                                              color: Color(
+                                                                  0xFF301B64),
+                                                            ),
+                                                            SizedBox(
+                                                                height: 10),
+                                                            _buildVerticalDottedLine(),
+                                                          ],
+                                                        ),
                                                         SizedBox(width: 8),
-                                                        Text(
-                                                          origemEndereco
-                                                              .split('\n')[0],
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                origemEndereco
+                                                                    .split(
+                                                                        '\n')[0],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontSize: 16,
+                                                                  color: Color(
+                                                                      0xFF301B64),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                origemEndereco
+                                                                    .split(
+                                                                        '\n')[1],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    Text(
-                                                      origemEndereco
-                                                          .split('\n')[1],
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        fontSize: 14,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
+                                                    SizedBox(height: 10)
                                                   ],
                                                 ),
-                                              SizedBox(height: 8),
                                               if (destinoEndereco.isNotEmpty)
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Icon(Icons.flag,
-                                                            color:
-                                                                Colors.purple),
+                                                        Icon(
+                                                          Icons.flag,
+                                                          color:
+                                                              Color(0xFF301B64),
+                                                        ),
                                                         SizedBox(width: 8),
-                                                        Text(
-                                                          destinoEndereco
-                                                              .split('\n')[0],
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                destinoEndereco
+                                                                    .split(
+                                                                        '\n')[0],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontSize: 16,
+                                                                  color: Color(
+                                                                      0xFF301B64),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                destinoEndereco
+                                                                    .split(
+                                                                        '\n')[1],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    Text(
-                                                      destinoEndereco
-                                                          .split('\n')[1],
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        fontSize: 14,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
                                                   ],
                                                 ),
-                                              Divider(height: 20, thickness: 2),
+                                              SizedBox(height: 20),
+                                              Divider(
+                                                  thickness: 1,
+                                                  color: Colors.grey[300]),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -420,7 +577,6 @@ class _CalcularTempoDistanciaScreenState
                                                   Row(
                                                     children: [
                                                       CircleAvatar(
-                                                        //backgroundImage: AssetImage('assets/gloria_logo.png'), // substitua pelo caminho do logo
                                                         radius: 20,
                                                         child: Text(
                                                           "G",
@@ -452,6 +608,8 @@ class _CalcularTempoDistanciaScreenState
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
+                                                              color: Color(
+                                                                  0xFF301B64),
                                                             ),
                                                           ),
                                                           Text(

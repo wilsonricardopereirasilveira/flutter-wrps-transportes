@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('pt', 'BR'), // Português do Brasil
+      supportedLocales: const [
+        Locale('pt', 'BR'), // Português do Brasil
       ],
       locale: const Locale('pt', 'BR'), // Define o idioma padrão
       initialRoute: '/',

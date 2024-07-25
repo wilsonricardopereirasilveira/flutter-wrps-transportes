@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:website_transwrps/models/oferta.dart';
 import 'package:website_transwrps/screens/calcular_tempo_distancia_screen.dart';
 import 'package:website_transwrps/widgets/side_menu.dart';
 import 'package:http/http.dart' as http;
@@ -66,10 +67,9 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
           _tipoVeiculo != null;
     });
 
-    LatLng pracaDaSe = LatLng(-23.5505, -46.6333);
-    mapController = MapController();
+    LatLng pracaDaSe = const LatLng(-23.5505, -46.6333);
 
-    // Não mova o mapa aqui, apenas defina o centro inicial
+    // Mover o mapa dentro de um callback
     WidgetsBinding.instance.addPostFrameCallback((_) {
       mapController.move(pracaDaSe, 15);
     });
@@ -96,12 +96,12 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
   void updateMap() async {
     bool shouldUpdateView = false;
 
-    if (_origemController.text.isNotEmpty && origemLatLng == null) {
+    if (_origemController.text.isNotEmpty) {
       origemLatLng = await getLatLngFromAddress(_origemController.text);
       shouldUpdateView = true;
     }
 
-    if (_destinoController.text.isNotEmpty && destinoLatLng == null) {
+    if (_destinoController.text.isNotEmpty) {
       destinoLatLng = await getLatLngFromAddress(_destinoController.text);
       shouldUpdateView = true;
     }
@@ -111,17 +111,13 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
       shouldUpdateView = true;
     }
 
-    if (shouldUpdateView && _shouldAutoUpdateMap) {
+    if (shouldUpdateView) {
       _updateMapView();
     }
-
-    setState(() {
-      _shouldAutoUpdateMap = false; // Disable auto-update after initial setup
-    });
   }
 
   void _updateMapView() {
-    if (_shouldAutoUpdateMap) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (origemLatLng != null && destinoLatLng != null) {
         final centerLat =
             (origemLatLng!.latitude + destinoLatLng!.latitude) / 2;
@@ -136,7 +132,7 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
       } else if (destinoLatLng != null) {
         mapController.move(destinoLatLng!, 15);
       }
-    }
+    });
   }
 
   double _calculateZoomLevel(LatLng point1, LatLng point2) {
@@ -1028,11 +1024,49 @@ class _CriarOfertaScreenState extends State<CriarOfertaScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ElevatedButton.icon(
-                                    onPressed: _isButtonEnabled ? () {} : null,
-                                    icon: Icon(Icons.check,
-                                        color: _isButtonEnabled
-                                            ? Colors.white
-                                            : Colors.grey),
+                                    onPressed: _isButtonEnabled
+                                        ? () {
+                                            final oferta = Oferta(
+                                              data: _dataController.text,
+                                              hora: _horaController.text,
+                                              origem: origemLatLng!,
+                                              destino: destinoLatLng!,
+                                              toneladas: double.parse(
+                                                  _toneladasController.text),
+                                              metrosCubicos: double.parse(
+                                                  _metrosCubicosController
+                                                      .text),
+                                              container: int.parse(
+                                                  _containerController.text),
+                                              descricao:
+                                                  _descricaoController.text,
+                                              tipoEmbalagem: _tipoEmbalagem!,
+                                              tipoCarga: _tipoCarga!,
+                                              tipoVeiculo: _tipoVeiculo!,
+                                              codigoRota: "#123587",
+                                              estadoEntrega:
+                                                  EstadoEntrega.EntregasEmCurso,
+                                              nomeMotorista:
+                                                  "Jose Araújo da Silva",
+                                              placaCaminhao: "ABC-1E23",
+                                              telefoneMotorista:
+                                                  "+55 (11) 12345-6789",
+                                            );
+
+                                            // Print para verificação, pode ser removido posteriormente
+                                            print(oferta.toString());
+
+                                            // Redirecionar para o dashboard
+                                            Navigator.pushNamed(
+                                                context, '/dashboard');
+                                          }
+                                        : null,
+                                    icon: Icon(
+                                      Icons.check,
+                                      color: _isButtonEnabled
+                                          ? Colors.white
+                                          : Colors.grey,
+                                    ),
                                     label: Text(
                                       'Confirmar e continuar',
                                       style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:website_transwrps/models/oferta.dart';
 import 'package:website_transwrps/widgets/combined_card.dart';
 import 'package:website_transwrps/widgets/dashboard_card.dart';
 import 'package:website_transwrps/widgets/donut_chart_painter.dart';
@@ -7,8 +8,49 @@ import 'package:website_transwrps/widgets/order_table.dart';
 import 'package:website_transwrps/widgets/truck_route_painter.dart';
 import 'package:website_transwrps/widgets/side_menu.dart';
 
-class HomePageDashboardScreen extends StatelessWidget {
+class HomePageDashboardScreen extends StatefulWidget {
   const HomePageDashboardScreen({super.key});
+
+  @override
+  State<HomePageDashboardScreen> createState() =>
+      _HomePageDashboardScreenState();
+}
+
+class _HomePageDashboardScreenState extends State<HomePageDashboardScreen> {
+  late int totalEntregas;
+  late int entregasRealizadas;
+  late int entregasFalhas;
+  late int entregasEmCurso;
+  late int entregaParcial;
+  List<Oferta> ordensEmCurso = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final fakeData =
+        Oferta.cachedFakeData; // Gera e/ou obtém os dados gerados uma vez
+    ordensEmCurso = fakeData
+        .where((oferta) =>
+            oferta.estadoEntrega == EstadoEntrega.EntregasEmCurso ||
+            oferta.estadoEntrega == EstadoEntrega.EntregaParcial)
+        .toList();
+
+    entregasRealizadas = fakeData
+        .where((oferta) =>
+            oferta.estadoEntrega == EstadoEntrega.EntregasRealizadas)
+        .length;
+    entregasFalhas = fakeData
+        .where((oferta) => oferta.estadoEntrega == EstadoEntrega.EntregasFalhas)
+        .length;
+    entregasEmCurso = fakeData
+        .where(
+            (oferta) => oferta.estadoEntrega == EstadoEntrega.EntregasEmCurso)
+        .length;
+    entregaParcial = fakeData
+        .where((oferta) => oferta.estadoEntrega == EstadoEntrega.EntregaParcial)
+        .length;
+    totalEntregas = fakeData.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +133,12 @@ class HomePageDashboardScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                color: Colors.white,
-                                width: double.infinity,
-                                child:
-                                    OrderTableHeader(screenWidth: screenWidth),
-                              ),
-                              Container(
                                 height: 400,
                                 width: double.infinity,
                                 child: SingleChildScrollView(
-                                  child: OrderTable(screenWidth: screenWidth),
+                                  child: OrderTable(
+                                      screenWidth: screenWidth,
+                                      orders: ordensEmCurso),
                                 ),
                               ),
                             ],
@@ -224,23 +262,23 @@ class HomePageDashboardScreen extends StatelessWidget {
           childAspectRatio: 1.5,
           children: [
             DashboardCard(
-              count: '14',
-              label: 'Pedidos Totais',
+              count: '$totalEntregas',
+              label: 'Entregas Totais',
               icon: Icons.assignment,
               iconColor: const Color(0xFF301B64),
               backgroundColor: const Color(0xFFFFCC00),
               screenWidth: screenWidth,
             ),
             DashboardCard(
-              count: '08',
-              label: 'Pedidos Realizados',
+              count: '$entregasRealizadas',
+              label: 'Entregas Realizadas',
               icon: Icons.flag,
               iconColor: const Color(0xFF301B64),
               backgroundColor: const Color(0xFFB5E4CA),
               screenWidth: screenWidth,
             ),
             DashboardCard(
-              count: '01',
+              count: '$entregasFalhas',
               label: 'Entregas Falhas',
               icon: Icons.error,
               iconColor: const Color(0xFF301B64),
@@ -248,7 +286,7 @@ class HomePageDashboardScreen extends StatelessWidget {
               screenWidth: screenWidth,
             ),
             DashboardCard(
-              count: '02',
+              count: '$entregasEmCurso',
               label: 'Entregas em Curso',
               icon: Icons.local_shipping,
               iconColor: const Color(0xFF301B64),
@@ -256,7 +294,7 @@ class HomePageDashboardScreen extends StatelessWidget {
               screenWidth: screenWidth,
             ),
             DashboardCard(
-              count: '01',
+              count: '$entregaParcial',
               label: 'Entrega Parcial',
               icon: Icons.hourglass_bottom,
               iconColor: const Color(0xFF301B64),
