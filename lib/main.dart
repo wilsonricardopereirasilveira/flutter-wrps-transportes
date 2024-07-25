@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:website_transwrps/screens/calcular_tempo_distancia_screen.dart';
 import 'package:website_transwrps/screens/criar_oferta_screen.dart';
+import 'package:website_transwrps/screens/numero_de_pedido_screen.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page_dashboard_screen.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginPageScreen(),
         '/dashboard': (context) => HomePageDashboardScreen(),
         '/criar-oferta': (context) => CriarOfertaScreen(),
+        '/numero-de-pedido': (context) => NumeroDePedidoScreen(),
       },
     );
   }

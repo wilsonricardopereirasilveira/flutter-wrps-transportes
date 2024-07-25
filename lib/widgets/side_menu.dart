@@ -32,7 +32,9 @@ class SideMenu extends StatelessWidget {
           }),
           _buildMenuItem(
               Icons.track_changes, 'Rastreamento', screenWidth, () {}),
-          _buildMenuItem(Icons.list, 'Número de Pedidos', screenWidth, () {}),
+          _buildMenuItem(Icons.list, 'Número de Pedidos', screenWidth, () {
+            Navigator.pushReplacementNamed(context, '/numero-de-pedido');
+          }),
           _buildMenuItem(Icons.report, 'Relatórios', screenWidth, () {}),
           const SizedBox(height: 20),
           _buildActionButton('+ Criar Solicitação', screenWidth, () {}),
