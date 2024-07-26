@@ -66,12 +66,16 @@ class Oferta {
 
       // Gerar coordenadas de latitude e longitude aleatórias para o Brasil
       LatLng origem = LatLng(
-        -34.0 + random.nextDouble() * 14.0, // Latitude entre -34 e -20
-        -74.0 + random.nextDouble() * 28.0, // Longitude entre -74 e -46
+        -33.75 +
+            random.nextDouble() * (5.27 - (-33.75)), // Latitude: -33.75 a 5.27
+        -73.99 +
+            random.nextDouble() *
+                (-34.79 - (-73.99)), // Longitude: -73.99 a -34.79
       );
+
       LatLng destino = LatLng(
-        -34.0 + random.nextDouble() * 14.0,
-        -74.0 + random.nextDouble() * 28.0,
+        -33.75 + random.nextDouble() * (5.27 - (-33.75)),
+        -73.99 + random.nextDouble() * (-34.79 - (-73.99)),
       );
 
       double toneladas = random.nextDouble() * 29 + 1; // Valor entre 1 e 30

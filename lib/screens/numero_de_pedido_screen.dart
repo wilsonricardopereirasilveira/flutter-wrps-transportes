@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:website_transwrps/models/oferta.dart';
+import 'package:website_transwrps/screens/ordem_completa_screen.dart';
 import 'package:website_transwrps/widgets/side_menu.dart';
 
 class NumeroDePedidoScreen extends StatefulWidget {
@@ -251,7 +252,7 @@ class _NumeroDePedidoScreenState extends State<NumeroDePedidoScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                EditOfertaScreen(
+                                                OrdemCompletaScreen(
                                                     oferta: oferta),
                                           ),
                                         );
@@ -321,37 +322,6 @@ class _NumeroDePedidoScreenState extends State<NumeroDePedidoScreen> {
           wordSpacing: -1,
           fontWeight: FontWeight.w300,
           color: Colors.black87,
-        ),
-      ),
-    );
-  }
-}
-
-class EditOfertaScreen extends StatelessWidget {
-  final Oferta oferta;
-
-  const EditOfertaScreen({super.key, required this.oferta});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Editar Oferta: ${oferta.codigoRota}'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Código da Rota: ${oferta.codigoRota}'),
-            Text('Placa do Caminhão: ${oferta.placaCaminhao}'),
-            Text('Data: ${oferta.data}'),
-            Text('Hora: ${oferta.hora}'),
-            Text('Estado da Entrega: ${oferta.estadoEntrega}'),
-            Text('Nome do Motorista: ${oferta.nomeMotorista}'),
-            Text('Telefone do Motorista: ${oferta.telefoneMotorista}'),
-            // Adicione mais campos conforme necessário
-          ],
         ),
       ),
     );
