@@ -1,4 +1,5 @@
 # Flutter WRPS Transportes
+[Veja a demo online](https://wilsonricardopereirasilveira.github.io/flutter-wrps-transportes/)
 
 ## Descrição
 
@@ -23,3 +24,11 @@ O projeto possui cinco telas principais:
 - **Localização e Geocodificação**: Integração com serviços de localização para geocodificação e marcadores de mapa.
 - **Armazenamento Local**: Utiliza armazenamento local para manter preferências e dados do usuário.
 - **Sugestões de Texto**: Implementação de sugestões e autocompletar em campos de texto.
+
+## Contribuição
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests para melhorias.
+
+## Licença
+Este projeto está licenciado sob a MIT License.
+
+Este README inclui informações detalhadas sobre o projeto, como acessar o site, funcionalidades, como executar o projeto, e como gerar uma build para web. Você pode adicionar ou modificar qualquer seção conforme necessário.
