@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:website_transwrps/screens/home_page_dashboard_screen.dart';
 
 class CustomForm extends StatelessWidget {
   final bool isVisible;
@@ -46,6 +47,7 @@ class CustomForm extends StatelessWidget {
                 controller: _usernameController,
                 decoration: const InputDecoration(
                   labelText: 'Usuário (DNI ou E-mail)',
+                  hintText: 'Dica: admin',
                   border: OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.white,
@@ -67,6 +69,7 @@ class CustomForm extends StatelessWidget {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Senha',
+                  hintText: 'Dica: admin',
                   border: OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.white,
@@ -116,7 +119,9 @@ class CustomForm extends StatelessWidget {
               curve: Curves.easeOut,
               transform: Matrix4.translationValues(0, isVisible ? 0 : 20, 0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _login(context);
+                },
                 child: Text(
                   'Iniciar sessão',
                   style: TextStyle(
@@ -136,5 +141,28 @@ class CustomForm extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _login(BuildContext context) {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username == 'admin' && password == 'admin') {
+      // Navegar para a próxima tela se o usuário for admin e a senha for admin
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              HomePageDashboardScreen(), // Insira a próxima tela aqui
+        ),
+      );
+    } else {
+      // Mostrar erro de senha inválida
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Usuário ou senha inválidos'),
+        ),
+      );
+    }
   }
 }
